@@ -31,8 +31,23 @@ public class Login extends javax.swing.JFrame {
             
             if (rs.next()){
                 //System.out.println("isso ai");
+                String perfil = rs.getString(6);
+                if (perfil.equals("admin")){
                 Principal principal = new Principal();
                 principal.setVisible(true);
+                Principal.jMenuItem3.setEnabled(true);
+                Principal.jMenu2.setEnabled(true);
+                Principal.jLabel1.setText(rs.getString(2));
+                this.dispose();
+                conexao.close();
+                }
+                else{
+                Principal principal = new Principal();
+                principal.setVisible(true); 
+                Principal.jLabel1.setText(rs.getString(2));
+                this.dispose();
+                conexao.close();
+                }
                 //this.dispose();
                 //conexao.close();
             }

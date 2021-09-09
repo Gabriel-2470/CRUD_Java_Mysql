@@ -64,10 +64,10 @@ public class Principal extends javax.swing.JFrame {
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel1.setText("Usuario");
 
-        lblData.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        lblData.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         lblData.setText("Data");
 
         jMenu1.setText("Cadastro");
@@ -84,11 +84,18 @@ public class Principal extends javax.swing.JFrame {
         jMenu1.add(jMenuItem2);
 
         jMenuItem3.setText("Usuarios");
+        jMenuItem3.setEnabled(false);
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem3);
 
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Relatorio");
+        jMenu2.setEnabled(false);
 
         jMenuItem4.setText("Serviços");
         jMenu2.add(jMenuItem4);
@@ -110,7 +117,6 @@ public class Principal extends javax.swing.JFrame {
         jMenu4.setText("Opçoes");
 
         Sair.setText("Sair");
-        Sair.setActionCommand("Sair");
         Sair.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 SairActionPerformed(evt);
@@ -128,11 +134,11 @@ public class Principal extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(Desktop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(72, 72, 72)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel1)
-                    .addComponent(lblData))
-                .addContainerGap(73, Short.MAX_VALUE))
+                .addGap(28, 28, 28)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblData)
+                    .addComponent(jLabel1))
+                .addContainerGap(172, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -142,7 +148,7 @@ public class Principal extends javax.swing.JFrame {
                 .addComponent(lblData)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel1)
-                .addContainerGap(427, Short.MAX_VALUE))
+                .addContainerGap(525, Short.MAX_VALUE))
         );
 
         pack();
@@ -173,6 +179,13 @@ public class Principal extends javax.swing.JFrame {
         Sobre sobre = new Sobre();
         sobre.setVisible(true);
     }//GEN-LAST:event_sobreopcActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        // TODO add your handling code here:
+        Usuarios usuarios = new Usuarios();
+        usuarios.setVisible(true);
+        Desktop.add(usuarios);
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -212,15 +225,15 @@ public class Principal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane Desktop;
     private javax.swing.JMenuItem Sair;
-    private javax.swing.JLabel jLabel1;
+    public static javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
+    public static javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
+    public static javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JLabel lblData;
     private javax.swing.JMenuItem sobreopc;
