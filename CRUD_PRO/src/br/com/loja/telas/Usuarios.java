@@ -83,6 +83,61 @@ ResultSet rs = null;
         }
     }
     
+    private void alterar(){
+        String sql = "update usuarios set usuario=?, fone=?, login=?, senha=?, " + "perfil=? where iduser=?";
+        try{
+            pst = conexao.prepareStatement(sql);
+            pst.setString(1, txtNome.getText());
+            pst.setString(2, txtTelefone.getText());
+            pst.setString(3, txtLogin.getText());
+            String captura_senha = new String(txtSenha.getPassword());
+            pst.setString(4, captura_senha);
+            pst.setString(5, comboPerfil.getSelectedItem().toString());
+            pst.setString(6, txtId.getText());
+            
+            if (txtId.getText().isEmpty() || txtNome.getText().isEmpty() || txtTelefone.getText().isEmpty() || txtLogin.getText().isEmpty() || txtSenha.getText().isEmpty()){
+                JOptionPane.showMessageDialog(null, "Preencha todos os campos");
+            }
+            else{
+                int adicionado = pst.executeUpdate();
+                if (adicionado>0){
+                    JOptionPane.showMessageDialog(null, "Alterado com sucesso");
+                    txtId.setText(null);
+                    txtNome.setText(null);
+                    txtTelefone.setText(null);
+                    txtLogin.setText(null);
+                    txtSenha.setText(null);
+            }
+            }
+        }
+        catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
+    
+    private void remover(){
+        int confirma = JOptionPane.showConfirmDialog(null, "Quer mesmo excluir este usuario?", "Confirmação", JOptionPane.YES_NO_OPTION);
+        if (confirma == JOptionPane.YES_OPTION){
+        String sql = "delete from usuarios where iduser=?";
+        try{
+            pst = conexao.prepareStatement(sql);
+            pst.setString(1, txtId.getText());
+            int apagado = pst.executeUpdate();
+            if (apagado > 0){
+                JOptionPane.showMessageDialog(null,"Usuario removido");
+                    txtId.setText(null);
+                    txtNome.setText(null);
+                    txtTelefone.setText(null);
+                    txtLogin.setText(null);
+                    txtSenha.setText(null);
+            }
+        }
+        catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
+}
+    
     
 
     /**
@@ -128,7 +183,6 @@ ResultSet rs = null;
         comboPerfil.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "admin", "user" }));
 
         btnAdicionar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/loja/icones/create.png"))); // NOI18N
-        btnAdicionar.setPreferredSize(new java.awt.Dimension(97, 73));
         btnAdicionar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAdicionarActionPerformed(evt);
@@ -144,8 +198,18 @@ ResultSet rs = null;
         });
 
         btnAlterar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/loja/icones/update.png"))); // NOI18N
+        btnAlterar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAlterarActionPerformed(evt);
+            }
+        });
 
         btnApagar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/loja/icones/delete.png"))); // NOI18N
+        btnApagar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnApagarActionPerformed(evt);
+            }
+        });
 
         txtSenha.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -191,7 +255,7 @@ ResultSet rs = null;
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addGap(31, 31, 31)
-                .addComponent(btnAdicionar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnAdicionar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(14, 14, 14)
@@ -232,7 +296,7 @@ ResultSet rs = null;
                     .addComponent(btnAlterar, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(btnApagar, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(btnPesquisar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAdicionar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnAdicionar, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addGap(66, 66, 66))
         );
 
@@ -252,6 +316,16 @@ ResultSet rs = null;
         // TODO add your handling code here:
         adicionar();
     }//GEN-LAST:event_btnAdicionarActionPerformed
+
+    private void btnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarActionPerformed
+        // TODO add your handling code here:
+        alterar();
+    }//GEN-LAST:event_btnAlterarActionPerformed
+
+    private void btnApagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnApagarActionPerformed
+        // TODO add your handling code here:
+        remover();
+    }//GEN-LAST:event_btnApagarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
