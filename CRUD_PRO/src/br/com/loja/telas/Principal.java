@@ -157,6 +157,9 @@ public class Principal extends javax.swing.JFrame {
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
+        Clientes clientes = new Clientes();
+        clientes.setVisible(true);
+        Desktop.add(clientes);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
