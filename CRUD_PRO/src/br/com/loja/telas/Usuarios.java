@@ -38,11 +38,7 @@ ResultSet rs = null;
             }
             else{
                 JOptionPane.showMessageDialog(null, "Usuario encontrado");
-                txtNome.setText(null);
-                txtTelefone.setText(null);
-                txtLogin.setText(null);
-                txtSenha.setText(null);
-                comboPerfil.setSelectedItem(null);
+                limpar();
             }
         }
         catch (Exception e) {
@@ -69,12 +65,7 @@ ResultSet rs = null;
                 int adicionado = pst.executeUpdate();
                 if (adicionado>0){
                     JOptionPane.showMessageDialog(null, "Adicionado com sucesso");
-                    txtId.setText(null);
-                    txtNome.setText(null);
-                    txtTelefone.setText(null);
-                    txtLogin.setText(null);
-                    txtSenha.setText(null);
-                    comboPerfil.setSelectedItem(null);
+                    limpar();
             }
             }
         }
@@ -102,11 +93,7 @@ ResultSet rs = null;
                 int adicionado = pst.executeUpdate();
                 if (adicionado>0){
                     JOptionPane.showMessageDialog(null, "Alterado com sucesso");
-                    txtId.setText(null);
-                    txtNome.setText(null);
-                    txtTelefone.setText(null);
-                    txtLogin.setText(null);
-                    txtSenha.setText(null);
+                    limpar();
             }
             }
         }
@@ -125,17 +112,22 @@ ResultSet rs = null;
             int apagado = pst.executeUpdate();
             if (apagado > 0){
                 JOptionPane.showMessageDialog(null,"Usuario removido");
-                    txtId.setText(null);
-                    txtNome.setText(null);
-                    txtTelefone.setText(null);
-                    txtLogin.setText(null);
-                    txtSenha.setText(null);
+                    limpar();
             }
         }
         catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }
     }
+}
+    
+    private void limpar(){
+        txtId.setText(null);
+        txtNome.setText(null);
+        txtTelefone.setText(null);
+        txtLogin.setText(null);
+        txtSenha.setText(null);
+        comboPerfil.setSelectedItem(null);
 }
     
     
@@ -166,7 +158,7 @@ ResultSet rs = null;
         btnApagar = new javax.swing.JButton();
         txtSenha = new javax.swing.JPasswordField();
 
-        setMaximizable(true);
+        setClosable(true);
 
         jLabel1.setText("ID");
 

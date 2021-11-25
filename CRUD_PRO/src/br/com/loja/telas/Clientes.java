@@ -8,6 +8,7 @@ package br.com.loja.telas;
 import java.sql.*;
 import br.com.loja.dal.Modulo_conexao;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import net.proteanit.sql.DbUtils;
 
 
@@ -45,10 +46,7 @@ public class Clientes extends javax.swing.JInternalFrame {
                 int adicionado = pst.executeUpdate();
                 if (adicionado>0){
                     JOptionPane.showMessageDialog(null,"Cliente adicionado com sucesso!");
-                    txtNome.setText(null);
-                    txtEndereco.setText(null);
-                    txtTelefone.setText(null);
-                    txtEmail.setText(null);
+                    limpar();
                 }
             }
         } catch (Exception e) {
@@ -57,7 +55,7 @@ public class Clientes extends javax.swing.JInternalFrame {
     }
     
     private void buscar(){
-        String sql = "select * from clientes where nomecli like ?";
+        String sql = "SELECT idcli as ID, nomecli as NOME, endcli as ENDEREÇO, fonecli as FONE, emailcli as EMAIL FROM clientes where nomecli like ?";
         try{
             pst = conexao.prepareStatement(sql);
             pst.setString(1, txtBusca.getText() + "%");
@@ -77,6 +75,32 @@ public class Clientes extends javax.swing.JInternalFrame {
         txtEmail.setText(tblClientes.getModel().getValueAt(definir, 4).toString());
     }
     
+    private void alterar(){
+        String sql = "update clientes set nomecli=? endcli=? fonecli=? emailcli=? where nomecli=?";
+        try{
+            pst = conexao.prepareStatement(sql);
+            pst.setString(1, txtNome.getText());
+            pst.setString(2, txtEndereco.getText());
+            pst.setString(3, txtTelefone.getText());
+            pst.setString(4, txtEmail.getText());
+            pst.setString(5, txtNome.getText());
+            
+            if (txtNome.getText().isEmpty() || txtEndereco.getText().isEmpty() || txtTelefone.getText().isEmpty() || 
+                    txtEmail.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(null,"Preencha todos os campos");
+            } 
+            else{
+                int adicionado = pst.executeUpdate();
+                if (adicionado>0){
+                    JOptionPane.showMessageDialog(null,"Dados do Cliente atualizado com sucesso!");
+                    limpar();
+                }
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
+    
     private void delete(){
         int confirma = JOptionPane.showConfirmDialog(null, "Quer mesmo excluir este cliente?", "Confirmação", JOptionPane.YES_NO_OPTION);
         if (confirma == JOptionPane.YES_OPTION){
@@ -87,10 +111,7 @@ public class Clientes extends javax.swing.JInternalFrame {
             int apagado = pst.executeUpdate();
             if (apagado > 0){
                 JOptionPane.showMessageDialog(null,"Cliente removido");
-                    txtNome.setText(null);
-                    txtEndereco.setText(null);
-                    txtTelefone.setText(null);
-                    txtEmail.setText(null);
+                limpar();
             }
         }
         catch (Exception e) {
@@ -98,6 +119,16 @@ public class Clientes extends javax.swing.JInternalFrame {
         }
     }
     }
+    
+    private void limpar(){
+        txtBusca.setText(null);
+        txtId.setText(null);
+        txtNome.setText(null);
+        txtEndereco.setText(null);
+        txtTelefone.setText(null);
+        txtEmail.setText(null);
+        ((DefaultTableModel) tblClientes.getModel()).setRowCount(0);
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -123,6 +154,9 @@ public class Clientes extends javax.swing.JInternalFrame {
         btnAdicionar = new javax.swing.JButton();
         btnAlterar = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
+        txtId = new javax.swing.JTextField();
+
+        setClosable(true);
 
         txtBusca.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -139,13 +173,13 @@ public class Clientes extends javax.swing.JInternalFrame {
 
         tblClientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "ID", "Nome", "ENDEREÇO", "TELEFONE", "EMAIL"
             }
         ));
         tblClientes.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -195,7 +229,7 @@ public class Clientes extends javax.swing.JInternalFrame {
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                         .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(txtBusca)
+                        .addComponent(txtBusca, javax.swing.GroupLayout.DEFAULT_SIZE, 247, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(146, 146, 146))
@@ -212,15 +246,17 @@ public class Clientes extends javax.swing.JInternalFrame {
                                     .addComponent(txtNome, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
                                     .addComponent(txtEndereco)
                                     .addComponent(txtTelefone)
-                                    .addComponent(txtEmail))))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnAdicionar)
-                        .addGap(36, 36, 36)
-                        .addComponent(btnAlterar)
-                        .addGap(34, 34, 34)
-                        .addComponent(btnDelete)
-                        .addGap(0, 88, Short.MAX_VALUE))))
+                                    .addComponent(txtEmail)
+                                    .addComponent(txtId, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE))))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnAdicionar)
+                .addGap(36, 36, 36)
+                .addComponent(btnAlterar)
+                .addGap(34, 34, 34)
+                .addComponent(btnDelete)
+                .addGap(45, 45, 45))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -234,7 +270,9 @@ public class Clientes extends javax.swing.JInternalFrame {
                         .addComponent(txtBusca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(35, 35, 35)
+                .addGap(9, 9, 9)
+                .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -252,13 +290,13 @@ public class Clientes extends javax.swing.JInternalFrame {
                         .addComponent(jLabel4)
                         .addGap(6, 6, 6))
                     .addComponent(txtEmail, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(32, 32, 32)
+                .addGap(38, 38, 38)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(btnAlterar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnAdicionar, javax.swing.GroupLayout.Alignment.TRAILING))
                     .addComponent(btnDelete))
-                .addContainerGap(38, Short.MAX_VALUE))
+                .addContainerGap(40, Short.MAX_VALUE))
         );
 
         pack();
@@ -308,6 +346,7 @@ public class Clientes extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtBusca;
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtEndereco;
+    private javax.swing.JTextField txtId;
     private javax.swing.JTextField txtNome;
     private javax.swing.JTextField txtTelefone;
     // End of variables declaration//GEN-END:variables
